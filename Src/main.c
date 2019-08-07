@@ -97,41 +97,48 @@ int main(void)
   while (1)
   {
 
-	  // HAL
-	  // 878 KHz
+	  // HAL = 878 KHz
 //	  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_SET);
 //	  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_RESET);
 
-	  // HAL
-	  //
+	  // HAL = 922 kHz
 //	  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_8);
 
-	  // LL
-	  //
+	  // LL = 1.18MHz
 //	  LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_8);
 //	  LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_8);
 
-	  // LL
-	  //
+	  // LL = 922 kHz
 //	  LL_GPIO_TogglePin(GPIOA, LL_GPIO_PIN_8);
 
 
-
 	  // http://hertaville.com/stm32f0-gpio-tutorial-part-1.html
+	  // https://gist.github.com/iwalpola/6c36c9573fd322a268ce890a118571ca
 
-	  // 4.00MHZ = LL
-	  // 3.78Mhz = HAL
+	  // LL  = 3.78Mhz
+	  // HAL = 3.78Mhz
 //	  GPIOA->ODR |=  0x00000100;
 //	  GPIOA->ODR &=  ~(0x00000100);
 
-	  // 5.5Mhz = LL and HAL
+	  // LL  = 5.54Mhz
+	  // HAL = 5.54Mhz
 //	  GPIOA->BSRR = 0x00000100;
-//	  GPIOA->BSRR = 0x01000000;
+//	  GPIOA->BSRR = 0x01000000; // shift 16 bit to reset, see below
 
-	  // 5.5Mhz = LL and HAL
+	  // HAL = 5.54Mhz
+	  // LL  = 6.00Mhz
+//	  GPIOA->BSRR = 0x00000100;
+//	  GPIOA->BSRR = (0x00000100 << 16); // shift 16 bit to reset
+
+	  // LL  = 5.54Mhz
+	  // HAL = 5.54Mhz
 //	  GPIOA->BSRR = (1<<8);
 //	  GPIOA->BSRR = (1<<24);
 
+	  // HAL = 5.54Mhz
+	  // LL  = 6.00Mhz
+	  GPIOA->BSRR = (1<<8); // Set
+	  GPIOA->BRR = (1<<8); // Reset
 
     /* USER CODE END WHILE */
 
